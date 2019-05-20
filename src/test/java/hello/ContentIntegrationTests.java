@@ -32,7 +32,7 @@ import org.springframework.web.socket.sockjs.client.WebSocketTransport;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class GreetingIntegrationTests {
+public class ContentIntegrationTests {
 
     @LocalServerPort
     private int port;
@@ -54,7 +54,7 @@ public class GreetingIntegrationTests {
     }
 
     @Test
-    public void getGreeting() throws Exception {
+    public void getContent() throws Exception {
 
         final CountDownLatch latch = new CountDownLatch(1);
         final AtomicReference<Throwable> failure = new AtomicReference<>();
@@ -66,14 +66,14 @@ public class GreetingIntegrationTests {
                 session.subscribe("/topic/conversation", new StompFrameHandler() {
                     @Override
                     public Type getPayloadType(StompHeaders headers) {
-                        return Greeting.class;
+                        return Content.class;
                     }
 
                     @Override
                     public void handleFrame(StompHeaders headers, Object payload) {
-                        Greeting greeting = (Greeting) payload;
+                        Content content = (Content) payload;
                         try {
-                            assertEquals("Mesi: Hello", greeting.getContent());
+                            assertEquals("Mesi: Hello", content.getContent());
                         } catch (Throwable t) {
                             failure.set(t);
                         } finally {
@@ -99,7 +99,7 @@ public class GreetingIntegrationTests {
             }
         }
         else {
-            fail("Greeting not received");
+            fail("Content not received");
         }
 
     }

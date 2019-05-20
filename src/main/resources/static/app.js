@@ -1,5 +1,5 @@
 var stompClient = null;
-var myName = null;
+var myName = "Anonym";
 var message = null;
 
 function setConnected(connected) {
@@ -7,11 +7,15 @@ function setConnected(connected) {
     $("#disconnect").prop("disabled", !connected);
     if (connected) {
         $("#conversation").show();
+        $("#messageToSend").show();
+        $("#setName").hide();
     }
     else {
         $("#conversation").hide();
+        $("#messageToSend").hide();
+        $("#setName").show();
     }
-    $("#greetings").html("");
+    $("#allMessages").html("");
 }
 
 function connect() {
@@ -20,8 +24,8 @@ function connect() {
     stompClient.connect({}, function (frame) {
         setConnected(true);
         console.log('Connected: ' + frame);
-        stompClient.subscribe('/topic/conversation', function (greeting) {
-            showGreeting(JSON.parse(greeting.body).content);
+        stompClient.subscribe('/topic/conversation', function (message) {
+            showMessage(JSON.parse(message.body).content);
         });
     });
 }
@@ -40,22 +44,28 @@ function setName() {
 
 function sendMessage() {
     message = $("#message").val();
-    console.log(myName);
-    console.log(message);
     stompClient.send("/app/messages", {}, JSON.stringify({'name': myName, 'value': message}));
 }
 
-function showGreeting(message) {
-    $("#greetings").append("<tr><td>" + message + "</td></tr>");
+function showMessage(message) {
+    var words = message.split(':');
+    var firstWord = words[0];
+    if (firstWord != myName) { buildMessageRow(message); }
+    else { buildMessageRow ("<b>" + message + "</b>"); }
+}
+
+function buildMessageRow(message) {
+    $("#allMessages").append("<tr><td>" + message + "</td></tr>");
 }
 
 $(function () {
     $("form").on('submit', function (e) {
         e.preventDefault();
     });
-    $( "#connect" ).click(function() { connect(); });
+    $( "#connect" ).click(function() { setName(); connect(); });
     $( "#disconnect" ).click(function() { disconnect(); });
-    $( "#setName" ).click(function() { setName(); });
     $( "#sendMessage" ).click(function() { sendMessage(); });
+    $("#conversation").hide();
+    $("#messageToSend").hide();
 });
 
