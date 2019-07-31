@@ -12,7 +12,6 @@ public class ChatController {
     @MessageMapping("/messages")
     @SendTo("/topic/conversation")
     public Content greeting(Message message) throws Exception {
-        Thread.sleep(1000); // simulated delay
         return new Content(HtmlUtils.htmlEscape(message.getName() + ": " + message.getValue()));
     }
 
