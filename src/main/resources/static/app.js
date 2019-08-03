@@ -62,6 +62,9 @@ $(function () {
     $("form").on('submit', function (e) {
         e.preventDefault();
     });
+	$.get("/user", function(data) {
+		console.log('A USER: ' + data.userAuthentication.details.name)
+    });
     $( "#connect" ).click(function() { setName(); connect(); });
     $( "#disconnect" ).click(function() { disconnect(); });
     $( "#sendMessage" ).click(function() { sendMessage(); });
