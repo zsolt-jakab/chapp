@@ -1,4 +1,4 @@
-package hello;
+package com.chat.app.model;
 
 public class Content {
 

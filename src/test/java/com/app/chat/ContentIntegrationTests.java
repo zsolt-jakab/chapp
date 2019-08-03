@@ -1,4 +1,4 @@
-package hello;
+package com.app.chat;
 
 import static org.junit.Assert.*;
 
@@ -29,6 +29,9 @@ import org.springframework.web.socket.messaging.WebSocketStompClient;
 import org.springframework.web.socket.sockjs.client.SockJsClient;
 import org.springframework.web.socket.sockjs.client.Transport;
 import org.springframework.web.socket.sockjs.client.WebSocketTransport;
+
+import com.chat.app.model.Content;
+import com.chat.app.model.Message;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
