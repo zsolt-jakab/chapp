@@ -8,7 +8,6 @@ import org.springframework.web.util.HtmlUtils;
 @Controller
 public class ChatController {
 
-
     @MessageMapping("/messages")
     @SendTo("/topic/conversation")
     public Content greeting(Message message) throws Exception {
