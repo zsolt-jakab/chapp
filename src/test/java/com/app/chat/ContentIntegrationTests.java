@@ -1,4 +1,4 @@
-package hello;
+package com.app.chat;
 
 import static org.junit.Assert.*;
 
