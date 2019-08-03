@@ -1,4 +1,4 @@
-package com.chat.app.model;
+package com.chat.app.controller;
 
 import java.security.Principal;
 
