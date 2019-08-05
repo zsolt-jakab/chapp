@@ -3,8 +3,8 @@ var myName = null;
 var message = null;
 
 function setConnected(connected) {
-    $("#connect").prop("disabled", connected);
-    $("#disconnect").prop("disabled", !connected);
+    $("#login").prop("disabled", connected);
+    $("#logout").prop("disabled", !connected);
     if (connected) {
         $("#conversation").show();
         $("#messageToSend").show();
@@ -68,8 +68,8 @@ $(function () {
     });
 	$.get("/isAuthenticated", function(data) {
 		if(data) {
-			setName();
 			connect();
+			setName();
 		}
     });
     $( "#login" ).click(function() { login(); });
