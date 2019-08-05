@@ -12,4 +12,9 @@ public class UserController {
   public Principal getUser(Principal principal) {
     return principal;
   }
+  
+  @GetMapping("/isAuthenticated")
+  public boolean isAuthenticated(Principal principal) {
+    return principal != null;
+  }
 }

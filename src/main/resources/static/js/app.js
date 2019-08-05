@@ -1,5 +1,5 @@
 var stompClient = null;
-var myName = "Anonym";
+var myName = null;
 var message = null;
 
 function setConnected(connected) {
@@ -8,12 +8,10 @@ function setConnected(connected) {
     if (connected) {
         $("#conversation").show();
         $("#messageToSend").show();
-        $("#setName").hide();
     }
     else {
         $("#conversation").hide();
         $("#messageToSend").hide();
-        $("#setName").show();
     }
     $("#allMessages").html("");
 }
@@ -39,7 +37,9 @@ function disconnect() {
 }
 
 function setName() {
-    myName = $("#name").val();
+	$.get("/user", function(data) {
+		myName = data.userAuthentication.details.name;
+    });
 }
 
 function sendMessage() {
@@ -58,15 +58,22 @@ function buildMessageRow(message) {
     $("#allMessages").append("<tr><td>" + message + "</td></tr>");
 }
 
+function login() {
+	window.location.replace("/login");
+}
+
 $(function () {
     $("form").on('submit', function (e) {
         e.preventDefault();
     });
-	$.get("/user", function(data) {
-		console.log('A USER: ' + data.userAuthentication.details.name)
+	$.get("/isAuthenticated", function(data) {
+		if(data) {
+			setName();
+			connect();
+		}
     });
-    $( "#connect" ).click(function() { setName(); connect(); });
-    $( "#disconnect" ).click(function() { disconnect(); });
+    $( "#login" ).click(function() { login(); });
+    $( "#logout" ).click(function() { disconnect(); });
     $( "#sendMessage" ).click(function() { sendMessage(); });
     $("#conversation").hide();
     $("#messageToSend").hide();
