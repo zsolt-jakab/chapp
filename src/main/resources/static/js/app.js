@@ -62,6 +62,12 @@ function login() {
 	window.location.replace("/login");
 }
 
+function logout() {
+	$.post("/logout", function() {
+		disconnect();
+	})
+}
+
 $(function () {
     $("form").on('submit', function (e) {
         e.preventDefault();
@@ -73,7 +79,7 @@ $(function () {
 		}
     });
     $( "#login" ).click(function() { login(); });
-    $( "#logout" ).click(function() { disconnect(); });
+    $( "#logout" ).click(function() { logout(); });
     $( "#sendMessage" ).click(function() { sendMessage(); });
     $("#conversation").hide();
     $("#messageToSend").hide();
