@@ -17,7 +17,7 @@ public class OAuth2Config extends WebSecurityConfigurerAdapter {
       .anyRequest()
       .permitAll()
     .and().logout()
-      .logoutSuccessUrl("/isAuthenticated")
+      .logoutSuccessUrl("/")
       .permitAll();
   }
 }

@@ -32,9 +32,7 @@ function ajaxSetUp() {
 	      || settings.type == 'DELETE') {
 	    if (!(/^http:.*/.test(settings.url) || /^https:.*/
 	        .test(settings.url))) {
-	      // Only send the token to relative URLs i.e. locally.
-	      xhr.setRequestHeader("X-XSRF-TOKEN",
-	          Cookies.get('XSRF-TOKEN'));
+	      xhr.setRequestHeader("X-XSRF-TOKEN", Cookies.get('XSRF-TOKEN'));
 	    }
 	  }
 	}
@@ -101,4 +99,3 @@ $(function () {
     $("#conversation").hide();
     $("#messageToSend").hide();
 });
-
