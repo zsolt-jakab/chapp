@@ -2,18 +2,8 @@ var stompClient = null;
 var myName = null;
 var message = null;
 
-function setConnected(connected) {
-    $("#login").prop("disabled", connected);
-    $("#logout").prop("disabled", !connected);
-    if (connected) {
-        $("#conversation").show();
-        $("#messageToSend").show();
-    }
-    else {
-        $("#conversation").hide();
-        $("#messageToSend").hide();
-    }
-    $("#allMessages").html("");
+function login() {
+	window.location.replace("/login");
 }
 
 function connect() {
@@ -28,12 +18,49 @@ function connect() {
     });
 }
 
+function logout() {
+	ajaxSetUp();
+	$.post("/logout", function() {
+		disconnect();
+	})
+}
+
+function ajaxSetUp() {
+	$.ajaxSetup({
+	beforeSend : function(xhr, settings) {
+	  if (settings.type == 'POST' || settings.type == 'PUT'
+	      || settings.type == 'DELETE') {
+	    if (!(/^http:.*/.test(settings.url) || /^https:.*/
+	        .test(settings.url))) {
+	      // Only send the token to relative URLs i.e. locally.
+	      xhr.setRequestHeader("X-XSRF-TOKEN",
+	          Cookies.get('XSRF-TOKEN'));
+	    }
+	  }
+	}
+	});
+}
+
 function disconnect() {
     if (stompClient !== null) {
         stompClient.disconnect();
     }
     setConnected(false);
     console.log("Disconnected");
+}
+
+function setConnected(connected) {
+    $("#login").prop("disabled", connected);
+    $("#logout").prop("disabled", !connected);
+    if (connected) {
+        $("#conversation").show();
+        $("#messageToSend").show();
+    }
+    else {
+        $("#conversation").hide();
+        $("#messageToSend").hide();
+    }
+    $("#allMessages").html("");
 }
 
 function setName() {
@@ -56,16 +83,6 @@ function showMessage(message) {
 
 function buildMessageRow(message) {
     $("#allMessages").append("<tr><td>" + message + "</td></tr>");
-}
-
-function login() {
-	window.location.replace("/login");
-}
-
-function logout() {
-	$.post("/logout", function() {
-		disconnect();
-	})
 }
 
 $(function () {
