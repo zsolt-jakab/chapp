@@ -10,21 +10,21 @@ import com.chat.app.service.UserService;
 
 @RestController
 public class UserController {
-  
-  private UserService userService;
 
-  @Autowired
-  public UserController(UserService userService) {
-    this.userService = userService;
-  }
+    private UserService userService;
 
-  @GetMapping("/user")
-  public Principal getUser(Principal principal) {
-    return principal;
-  }
-  
-  @GetMapping("/isAuthenticated")
-  public boolean isAuthenticated(Principal principal) {
-    return userService.isAuthenticated(principal);
-  }
+    @Autowired
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
+
+    @GetMapping("/user")
+    public Principal getUser(Principal principal) {
+        return principal;
+    }
+
+    @GetMapping("/isAuthenticated")
+    public boolean isAuthenticated(Principal principal) {
+        return userService.isAuthenticated(principal);
+    }
 }

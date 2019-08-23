@@ -10,13 +10,13 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 @EnableOAuth2Sso
 public class OAuth2Config extends WebSecurityConfigurerAdapter {
 
-  @Override
-  protected void configure(HttpSecurity http) throws Exception {
-    http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-    .and().authorizeRequests()
-      .anyRequest()
-      .permitAll()
-    .and().logout()
-      .logoutSuccessUrl("/");
-  }
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.csrf()
+            .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+        .and().authorizeRequests()
+            .anyRequest().permitAll()
+        .and().logout()
+            .logoutSuccessUrl("/");
+    }
 }
