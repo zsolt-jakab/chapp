@@ -1,7 +1,8 @@
 package com.chat.app.service;
 
-import java.security.Principal;
 import org.springframework.stereotype.Service;
+
+import java.security.Principal;
 
 @Service
 public class UserServiceImpl implements UserService {
