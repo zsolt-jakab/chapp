@@ -5,7 +5,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -15,10 +17,9 @@ import com.chat.app.service.UserService;
 import java.security.Principal;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.mock;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.assertj.core.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserControllerTest {
@@ -35,22 +36,59 @@ public class UserControllerTest {
     }
     
     @Test
+    public void getUserTest_withAuthentication() throws Exception {
+        // GIVEN
+        Principal principal = new Principal() {
+            
+            @Override
+            public String getName() {
+                return "chapp";
+            }
+        };
+        
+        // WHEN
+        ResultActions result = mockMvc.perform(get("/user")
+                                      .principal(principal));
+                
+        // THEN
+        result.andExpect(status().isOk())
+              .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+              .andExpect(jsonPath("$.name").value("chapp"));
+    }
+    
+    @Test
+    public void getUserTest_withoutAuthentication() throws Exception {        
+        // WHEN
+        ResultActions result = mockMvc.perform(get("/user"));
+                
+        // THEN
+        result.andExpect(status().isOk());
+        
+        MvcResult mvcResult = result.andReturn();
+        assertThat(mvcResult.getResponse().getContentType()).isNull();
+    }
+    
+    @Test
     public void isAuthenticatedTest_withoutAuthentication() throws Exception {
-      //GIVEN
+        // GIVEN
         Principal principal = null;
         when(userService.isAuthenticated(principal)).thenReturn(false);
         
         // WHEN
         ResultActions result = mockMvc.perform(get("/isAuthenticated"));
                 
-        //THEN
+        // THEN
         result.andExpect(status().isOk())
+              .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
               .andExpect(content().string("false"));
+        
+        verify(userService).isAuthenticated(principal);
+        verifyNoMoreInteractions(userService);
     }
     
     @Test
     public void isAuthenticatedTest_withAuthentication() throws Exception {
-        //GIVEN
+        // GIVEN
         Principal principal = mock(Principal.class);
         when(userService.isAuthenticated(principal)).thenReturn(true);
         
@@ -58,8 +96,12 @@ public class UserControllerTest {
         ResultActions result = mockMvc.perform(get("/isAuthenticated")
                                       .principal(principal));
         
-        //THEN
+        // THEN
         result.andExpect(status().isOk())
+              .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
               .andExpect(content().string("true"));
+        
+        verify(userService).isAuthenticated(principal);
+        verifyNoMoreInteractions(userService);
     }
 }
