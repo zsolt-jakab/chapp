@@ -11,7 +11,6 @@ import com.chat.app.model.Message;
 @Controller
 public class ChatController {
 
-
     @MessageMapping("/messages")
     @SendTo("/topic/conversation")
     public Content greeting(Message message) throws Exception {
