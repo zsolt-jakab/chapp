@@ -1,21 +1,9 @@
 var stompClient = null;
-var myName = "Anonym";
+var myName = null;
 var message = null;
 
-function setConnected(connected) {
-    $("#connect").prop("disabled", connected);
-    $("#disconnect").prop("disabled", !connected);
-    if (connected) {
-        $("#conversation").show();
-        $("#messageToSend").show();
-        $("#setName").hide();
-    }
-    else {
-        $("#conversation").hide();
-        $("#messageToSend").hide();
-        $("#setName").show();
-    }
-    $("#allMessages").html("");
+function login() {
+	window.location.replace("/login");
 }
 
 function connect() {
@@ -30,6 +18,27 @@ function connect() {
     });
 }
 
+function logout() {
+	ajaxSetUp();
+	$.post("/logout", function() {
+		disconnect();
+	})
+}
+
+function ajaxSetUp() {
+	$.ajaxSetup({
+	beforeSend : function(xhr, settings) {
+	  if (settings.type == 'POST' || settings.type == 'PUT'
+	      || settings.type == 'DELETE') {
+	    if (!(/^http:.*/.test(settings.url) || /^https:.*/
+	        .test(settings.url))) {
+	      xhr.setRequestHeader("X-XSRF-TOKEN", Cookies.get('XSRF-TOKEN'));
+	    }
+	  }
+	}
+	});
+}
+
 function disconnect() {
     if (stompClient !== null) {
         stompClient.disconnect();
@@ -38,8 +47,24 @@ function disconnect() {
     console.log("Disconnected");
 }
 
+function setConnected(connected) {
+    $("#login").prop("disabled", connected);
+    $("#logout").prop("disabled", !connected);
+    if (connected) {
+        $("#conversation").show();
+        $("#messageToSend").show();
+    }
+    else {
+        $("#conversation").hide();
+        $("#messageToSend").hide();
+    }
+    $("#allMessages").html("");
+}
+
 function setName() {
-    myName = $("#name").val();
+	$.get("/user", function(data) {
+		myName = data.userAuthentication.details.name;
+    });
 }
 
 function sendMessage() {
@@ -62,10 +87,15 @@ $(function () {
     $("form").on('submit', function (e) {
         e.preventDefault();
     });
-    $( "#connect" ).click(function() { setName(); connect(); });
-    $( "#disconnect" ).click(function() { disconnect(); });
+	$.get("/isAuthenticated", function(data) {
+		if(data) {
+			connect();
+			setName();
+		}
+    });
+    $( "#login" ).click(function() { login(); });
+    $( "#logout" ).click(function() { logout(); });
     $( "#sendMessage" ).click(function() { sendMessage(); });
     $("#conversation").hide();
     $("#messageToSend").hide();
 });
-
