@@ -1,7 +1,10 @@
 FROM openjdk:11
 
-EXPOSE 8080
+ENV VERSION=0.1.2
+ENV JAR_NAME="chapp-${VERSION}.jar"
 
-ENTRYPOINT ["java", "-jar", "/opt/chapp-0.1.2.jar"]
+WORKDIR /opt/app
 
-ADD target/chapp-0.1.2.jar /opt/chapp-0.1.2.jar
+COPY target/*.jar ./
+
+CMD ["sh", "-c", "java -jar $JAR_NAME"]
