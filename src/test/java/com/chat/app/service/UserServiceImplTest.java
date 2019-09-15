@@ -1,4 +1,4 @@
-package com.app.chat.service;
+package com.chat.app.service;
 
 import com.chat.app.service.UserServiceImpl;
 import org.junit.Before;

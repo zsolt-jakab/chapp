@@ -1,0 +1,13 @@
+language: java
+jdk: openjdk11
+
+install: true
+script:
+  - ./mvnw clean install
+  - bash <(curl -s https://codecov.io/bash)
+
+
+# need superuser for docker
+sudo: required
+services:
+  - docker

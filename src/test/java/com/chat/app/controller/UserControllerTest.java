@@ -1,4 +1,4 @@
-package com.app.chat.controller;
+package com.chat.app.controller;
 
 import com.chat.app.controller.UserController;
 import com.chat.app.service.UserService;

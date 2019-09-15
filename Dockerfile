@@ -1,7 +1,7 @@
 FROM openjdk:11
 
-EXPOSE 8080
+WORKDIR /opt/app
 
-ENTRYPOINT ["java", "-jar", "/opt/chapp-0.1.2.jar"]
+COPY target/*.jar ./service.jar
 
-ADD target/chapp-0.1.2.jar /opt/chapp-0.1.2.jar
+CMD ["java", "-jar", "service.jar"]
