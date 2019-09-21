@@ -13,6 +13,7 @@ services:
   - docker
 
 deploy:
+  skip_cleanup: true
   provider: elasticbeanstalk
   region:  "eu-central-1"
   app: "docker-chapp"
