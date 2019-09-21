@@ -14,7 +14,7 @@ services:
 
 deploy:
   skip_cleanup: true
-  zip_file: ./
+  zip_file: target
   provider: elasticbeanstalk
   region:  "eu-central-1"
   app: "docker-chapp"
