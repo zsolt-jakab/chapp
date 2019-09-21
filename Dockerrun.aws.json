@@ -1,0 +1,19 @@
+{
+  "AWSEBDockerrunVersion": 2,
+  "containerDefinitions": [
+    {
+      "name": "chapp",
+      "image": "jazs/chapp",
+      "essential": true,
+      "portMappings": [
+        {
+          "hostPort": 8080,
+          "containerPort": 8080
+        }
+      ]
+    }
+  ],
+  "links": [
+    "chapp"
+  ]
+}
