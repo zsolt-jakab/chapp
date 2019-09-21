@@ -10,17 +10,17 @@ install: true
 script:
   - ./mvnw clean install
   - bash <(curl -s https://codecov.io/bash)
-  - docker build -t jazs/chapp .
 
 before_deploy:
   - git status
   - git add --all
-  - git status
+  - git
+  - zip travis.zip
   - ls
 deploy:
   skip_cleanup: true
   cleanup: false
-  zip_file: target/chapp-0.1.2.jar
+  zip_file: /
   provider: elasticbeanstalk
   region:  "eu-central-1"
   app: "docker-chapp"
