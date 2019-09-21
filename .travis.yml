@@ -1,3 +1,8 @@
+# need superuser for docker
+sudo: required
+services:
+  - docker
+
 language: java
 jdk: openjdk11
 
@@ -5,12 +10,8 @@ install: true
 script:
   - ./mvnw clean install
   - bash <(curl -s https://codecov.io/bash)
+  - docker build -t jazs/chapp -t .
 
-
-# need superuser for docker
-sudo: required
-services:
-  - docker
 before_deploy:
   - git status
   - git add --all
