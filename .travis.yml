@@ -11,7 +11,8 @@ script:
 sudo: required
 services:
   - docker
-
+before_deploy:
+  - git add --all
 deploy:
   cleanup: false
   #zip_file: target
