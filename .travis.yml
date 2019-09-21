@@ -22,7 +22,7 @@ deploy:
   provider: elasticbeanstalk
   region:  "eu-central-1"
   app: "docker-chapp"
-  env: "DockerChapp-env"
+  env: "DockerChapp-env-1"
   bucket_name: elasticbeanstalk-eu-central-1-034445363307
   bucket_path: "docker-chapp"
   on:
