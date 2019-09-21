@@ -14,7 +14,7 @@ script:
 before_deploy:
   - git status
   - git add --all
-  - zip travis.zip
+  - zip travis
   - ls
 deploy:
   skip_cleanup: true
