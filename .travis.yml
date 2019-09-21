@@ -11,14 +11,16 @@ script:
   - ./mvnw clean install
   - bash <(curl -s https://codecov.io/bash)
 
+after_success:
+  - docker build -t jazs/chapp .
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  - docker push jazs/chapp
+
 before_deploy:
-  - git status
-  - git add --all
   - ls
 deploy:
   skip_cleanup: true
   cleanup: false
-  zip_file: /
   provider: elasticbeanstalk
   region:  "eu-central-1"
   app: "docker-chapp"
@@ -30,6 +32,3 @@ deploy:
   access_key_id: "$AWS_ACCESS_KEY"
   secret_access_key:
     secure: "$AWS_SECRET_KEY"
-after_deploy:
-  - git status
-  - ls
