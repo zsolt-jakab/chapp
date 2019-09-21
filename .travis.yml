@@ -12,9 +12,11 @@ sudo: required
 services:
   - docker
 before_deploy:
+  - git status
   - git add --all
+  - git status
+  - ls
 deploy:
-  script: ls
   skip_cleanup: true
   cleanup: false
   #zip_file: target
@@ -29,4 +31,6 @@ deploy:
   access_key_id: "$AWS_ACCESS_KEY"
   secret_access_key:
     secure: "$AWS_SECRET_KEY"
-
+after_deploy:
+  - git status
+  - ls
