@@ -14,7 +14,6 @@ script:
 before_deploy:
   - git status
   - git add --all
-  - git
   - zip travis.zip
   - ls
 deploy:
