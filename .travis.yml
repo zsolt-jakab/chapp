@@ -20,7 +20,7 @@ before_deploy:
 deploy:
   skip_cleanup: true
   cleanup: false
-  #zip_file: target
+  zip_file: target/chapp-0.1.2.jar
   provider: elasticbeanstalk
   region:  "eu-central-1"
   app: "docker-chapp"
