@@ -4,6 +4,7 @@
     {
       "name": "chapp",
       "image": "jazs/chapp",
+      "memory": 512,
       "essential": true,
       "portMappings": [
         {
