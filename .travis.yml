@@ -10,7 +10,7 @@ install: true
 script:
   - ./mvnw clean install
   - bash <(curl -s https://codecov.io/bash)
-  - docker build -t jazs/chapp -t .
+  - docker build -t jazs/chapp .
 
 before_deploy:
   - git status
