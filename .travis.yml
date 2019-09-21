@@ -11,3 +11,16 @@ script:
 sudo: required
 services:
   - docker
+
+deploy:
+  provider: elasticbeanstalk
+  region:  "eu-central-1"
+  app: "docker-chapp"
+  env: "DockerChapp-env"
+  bucket_name: elasticbeanstalk-eu-central-1-034445363307
+  bucket_path: "docker-chapp"
+  on:
+    branch: master
+  access_key_id: "$AWS_ACCESS_KEY"
+  secret_access_key:
+    secure: "$AWS_SECRET_KEY"
