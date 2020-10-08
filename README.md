@@ -6,11 +6,11 @@ future extendability
 
 ## Start application
 ### With maven
-./mvnw spring-boot:run
+./gradlew :bootRun --args='--spring.profiles.active=dev' 
 #### avalilable: http://localhost:8080/
 
 ### With docker
-./mvnw clean install
+./gradlew clean install
 
 docker-compose up --build
 #### avalilable: http://localhost

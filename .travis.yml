@@ -8,7 +8,7 @@ jdk: openjdk11
 
 install: true
 script:
-  - ./mvnw clean install
+  - ./gradlew clean build
   - bash <(curl -s https://codecov.io/bash)
 
 after_success:
