@@ -9,9 +9,9 @@ jdk: openjdk11
 install: true
 script:
   - ./gradlew clean build
-  - bash <(curl -s https://codecov.io/bash)
 
 after_success:
+  - bash <(curl -s https://codecov.io/bash)
   - docker build -t jazs/chapp .
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
   - docker push jazs/chapp
